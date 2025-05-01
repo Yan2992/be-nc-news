@@ -5,6 +5,8 @@ const db = require("../db/connection");
 const data = require("../db/data/test-data/index");
 const request = require("supertest");
 const topics = require("../db/data/test-data/topics");
+const articles = require("../db/data/test-data/articles");
+const comments = require("../db/data/test-data/comments");
 
 beforeEach(() => {
   return seed(data);
@@ -18,7 +20,7 @@ describe("GET /api", () => {
     return request(app)
       .get("/api")
       .expect(200)
-      .then(({ body: { endpoints } }) => {
+      .then(({ body: { endpoints }}) => {
         expect(endpoints).toEqual(endpointsJson);
       });
   });
@@ -71,7 +73,7 @@ describe("GET /api", () => {
   })
 
   describe("GET /api/articles/banana", () => {
-    test.only("400: Responds with bad request if sent an invalid ID", () => {
+    test("400: Responds with bad request if sent an invalid ID", () => {
       return request(app)
       .get("/api/articles/banana")
       .expect(400)
@@ -80,5 +82,65 @@ describe("GET /api", () => {
       })
     })
   })
+
+  describe("GET /api/articles", () => {
+    test("200: Responds with an array of articles object, each of which should have properties of: author, title, article_id, topic, created_at, votes, article_img_url, comment_count", () => {
+      return request(app)
+      .get("/api/articles")
+      .expect(200)
+      .then((response) => {
+        const articles = response.body.articles
+        expect(articles).toHaveLength(13)
+        expect(articles[0]).toHaveProperty("author")
+        expect(articles[0]).toHaveProperty("title")
+        expect(articles[0]).toHaveProperty("article_id")
+        expect(articles[0]).toHaveProperty("topic")
+        expect(articles[0]).toHaveProperty("created_at")
+        expect(articles[0]).toHaveProperty("votes")
+        expect(articles[0]).toHaveProperty("votes")
+        expect(articles[0]).toHaveProperty("article_img_url")
+      })
+    })
+  })
+
+  describe("GET /api/articles", () => {
+    test("200: Responds with returned articles that do not have a 'body' property", () => {
+      return request(app)
+      .get("/api/articles")
+      .expect(200)
+      .then((response) => {
+        const articles = response.body.articles
+        articles.forEach((article) => {
+          expect(article).not.toHaveProperty("body")
+        })
+      })
+    })
+  })
+
+  describe("GET /api/articles", () => {
+    test("200: make sure articles are sorted by created_at in descending order", () => {
+      return request(app)
+      .get("/api/articles")
+      .expect(200)
+      .then((response) => {
+        const articles = response.body.articles
+         const isSortedInDescOrder = articles.every((current, index) => {
+            if (index === 0) return true
+            return current.created_at <= articles[index - 1].created_at
+          })
+          expect(isSortedInDescOrder).toBe(true)
+        })
+      })
+    })
+
+test("404: responds with message 'Path not found' for an invalid endpoint", () => {
+  return request(app)
+    .get('/api/article/1/comments')
+    .expect(404)
+    .then((res) => {
+      expect(res.body.msg).toBe('Path not found')
+    })
+})
+
 
 });
