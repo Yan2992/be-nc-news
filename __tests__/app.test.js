@@ -142,5 +142,54 @@ test("404: responds with message 'Path not found' for an invalid endpoint", () =
     })
 })
 
+  test("200: Responds with an array of comments for the given article_id of which each comment should have the following properties: comment_id, votes, created_at, author, body, article_id", () => {
+    return request(app)
+    .get('/api/articles/1/comments')
+    .expect(200)
+    .then((response) => {
+
+      const comments = response.body.comments
+
+        expect(Array.isArray(comments)).toBe(true)
+
+        expect(comments.length).toBeGreaterThan(0)
+
+        expect(comments[0]).toHaveProperty("comment_id")
+        expect(comments[0]).toHaveProperty("votes")
+        expect(comments[0]).toHaveProperty("created_at")
+        expect(comments[0]).toHaveProperty("author")
+        expect(comments[0]).toHaveProperty("body")
+        expect(comments[0]).toHaveProperty("article_id")
+    })
+  })
+
+  describe("GET /api/articles/1/comments", () => {
+    test("200: make sure comments are sorted by created_at in descending order", () => {
+      return request(app)
+      .get("/api/articles/1/comments")
+      .expect(200)
+      .then((response) => {
+        const comments = response.body.comments
+         const isSortedInDescOrder = comments.every((current, index) => {
+            if (index === 0) return true
+            return current.created_at <= comments[index - 1].created_at
+          })
+          expect(isSortedInDescOrder).toBe(true)
+        })
+      })
+    })
+
+    describe("GET /api/articles/:article_id/comments", () => {
+      test("404: Returns Not Found if article_id doesn't exist", () => {
+        return request(app)
+          .get("/api/articles/999999999/comments")
+          .expect(404)
+          .then((response) => {
+            expect(response.body.msg).toBe("Not Found")
+          })
+      });
+    })
+
+
 
 });

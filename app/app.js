@@ -2,7 +2,7 @@ const endpointsJson = require("../endpoints.json");
 const express = require("express");
 const app = express();
 const db = require("../db/connection");
-const { getApi, getTopics, getArticlesById, getArticles } = require("./controllers/nc-news.controller");
+const { getApi, getTopics, getArticlesById, getArticles, getComments, } = require("./controllers/nc-news.controller");
 
 
 app.get("/api", getApi);
@@ -12,6 +12,9 @@ app.get("/api/topics", getTopics);
 app.get("/api/articles/:article_id", getArticlesById); 
 
 app.get("/api/articles", getArticles)
+
+app.get("/api/articles/:article_id/comments", getComments)
+
 
 app.use((req, res) => {
   res.status(404).send({ msg: 'Path not found' });
