@@ -64,6 +64,29 @@ const insertCommentByArticleId = (article_id, username, body) => {
         })
 }   
 
+
+const updateVotesByArticleId = (article_id, inc_votes) => {
+    return db.query(`
+        UPDATE articles
+        SET votes = votes + $1
+        WHERE article_id = $2
+        RETURNING *
+        `, [inc_votes, article_id])
+        .then((result) => {
+            return result.rows[0]
+        })
+}   
+
+const deleteCommentFromDb = (comment_id) => {
+    return db.query(`
+      DELETE FROM comments
+      WHERE comment_id = $1
+      RETURNING *;`, [comment_id])
+      .then((result) => {
+        return result.rows[0]
+      })
+  }
+
 // const selectUsers = () => {
 //     return db.query(`SELECT * FROM users`)
 //     .then((result) => {
@@ -72,4 +95,6 @@ const insertCommentByArticleId = (article_id, username, body) => {
 //     })
 // }
 
-module.exports = { selectTopics, selectArticlesById, selectArticles, selectComments, insertCommentByArticleId };
+
+
+module.exports = { selectTopics, selectArticlesById, selectArticles, selectComments, insertCommentByArticleId, updateVotesByArticleId, deleteCommentFromDb };
