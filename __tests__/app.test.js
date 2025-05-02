@@ -234,26 +234,20 @@ test("404: responds with message 'Path not found' for an invalid endpoint", () =
           .expect(204)
       })
 
-      // describe("GET /api/users", () => {
-      // test("200: Responds with an array of users object, each of which should have properties of: username, name, avatar_url", () => {
-      //   return request(app)
-      //   .get("/api/users")
-      //   .expect(200)
-      //   .then((response) => {
-      //     const users = response.body.users
-      //     expect(users).toHaveLength(4)
-      //     expect(users[0]).toHaveProperty("username")
-      //     expect(users[0]).toHaveProperty("name")
-      //     expect(users[0]).toHaveProperty("avatar_url")
-      //   })
-      // })
-
+      describe("GET /api/users", () => {
+      test("200: Responds with an array of users object, each of which should have properties of: username, name, avatar_url", () => {
+        return request(app)
+        .get("/api/users")
+        .expect(200)
+        .then((response) => {
+          const users = response.body.users
+          expect(users).toHaveLength(4)
+          expect(Array.isArray(users)).toBe(true)
+          expect(users[0]).toHaveProperty("username")
+          expect(users[0]).toHaveProperty("name")
+          expect(users[0]).toHaveProperty("avatar_url")
+        })
+      })
     })
 
-
-
-
-
-
-
-  
+  })
