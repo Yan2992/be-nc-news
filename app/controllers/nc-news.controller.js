@@ -1,6 +1,6 @@
 const comments = require("../../db/data/test-data/comments")
 const endpoints = require("../../endpoints.json")
-const { selectTopics, selectArticles, selectComments, insertCommentByArticleId, updateVotesByArticleId, deleteCommentFromDb } = require("../models/nc-news.model")
+const { selectTopics, selectArticles, selectComments, insertCommentByArticleId, updateVotesByArticleId, deleteCommentFromDb, selectUsers } = require("../models/nc-news.model")
 
 
 const getApi = (req, res) => {
@@ -86,17 +86,17 @@ const deleteComment = (req, res, next) => {
   }
 
 
-// const getUsers = (req, res) => {
-//     selectUsers().then((result) => {
-//         res.status(200).send({ users: result });
-//       })
-//           .catch((err) => {
-//         next(err)
-//     })
-// }
+const getUsers = (req, res) => {
+    selectUsers().then((result) => {
+        res.status(200).send({ users: result });
+      })
+          .catch((err) => {
+        next(err)
+    })
+}
 
 
 
 
 
-module.exports = { getApi, getTopics, getArticlesById, getArticles, getComments, postComment, patchArticleVotes, deleteComment};
+module.exports = { getApi, getTopics, getArticlesById, getArticles, getComments, postComment, patchArticleVotes, deleteComment, getUsers};

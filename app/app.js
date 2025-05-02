@@ -3,7 +3,7 @@ const endpointsJson = require("../endpoints.json");
 const express = require("express");
 const app = express();
 const db = require("../db/connection");
-const { getApi, getTopics, getArticlesById, getArticles, getComments, postComment, patchArticleVotes, deleteComment} = require("./controllers/nc-news.controller");
+const { getApi, getTopics, getArticlesById, getArticles, getComments, postComment, patchArticleVotes, deleteComment, getUsers} = require("./controllers/nc-news.controller");
 
 
 app.use(express.json());
@@ -24,7 +24,7 @@ app.patch("/api/articles/:article_id", patchArticleVotes)
 
 app.delete("/api/comments/:comment_id", deleteComment)
 
-// app.get("/api/users", getUsers)
+app.get("/api/users", getUsers)
 
 
 app.use((req, res) => {

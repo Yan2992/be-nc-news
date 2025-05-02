@@ -87,14 +87,14 @@ const deleteCommentFromDb = (comment_id) => {
       })
   }
 
-// const selectUsers = () => {
-//     return db.query(`SELECT * FROM users`)
-//     .then((result) => {
-//         console.log(result.rows)
-//         return result.rows
-//     })
-// }
+const selectUsers = () => {
+    return db.query(`SELECT * FROM users`)
+    .then((result) => {
+        console.log(result.rows)
+        return result.rows
+    })
+}
 
 
 
-module.exports = { selectTopics, selectArticlesById, selectArticles, selectComments, insertCommentByArticleId, updateVotesByArticleId, deleteCommentFromDb };
+module.exports = { selectTopics, selectArticlesById, selectArticles, selectComments, insertCommentByArticleId, updateVotesByArticleId, deleteCommentFromDb, selectUsers };
