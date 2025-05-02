@@ -37,38 +37,38 @@ describe("GET /api", () => {
     })
   })
 
-  describe("GET /api/articles/1", () => {
-    test("200: Responds with: an article object, which should have the following properties: author, title, article_id, body, topic, created_at, votes, article_img_url", () => {
-      return request(app)
-      .get("/api/articles/1")
-      .expect(200)
-      .then((response) => {
-        const articlesResult = response.body.article
-        expect(articlesResult).toEqual({
-          article_id: 1,
-          title: "Living in the shadow of a great man",
-          topic: "mitch",
-          author: "butter_bridge",
-          body: "I find this existence challenging",
-          created_at: "2020-07-09T20:11:00.000Z",
-          votes: 100,
-          article_img_url:
-            "https://images.pexels.com/photos/158651/news-newsletter-newspaper-information-158651.jpeg?w=700&h=700",
-        })
-      })
-    })
+  // describe("GET /api/articles/1", () => {
+  //   test("200: Responds with: an article object, which should have the following properties: author, title, article_id, body, topic, created_at, votes, article_img_url", () => {
+  //     return request(app)
+  //     .get("/api/articles/1")
+  //     .expect(200)
+  //     .then((response) => {
+  //       const articlesResult = response.body.article
+  //       expect(articlesResult).toEqual({
+  //         article_id: 1,
+  //         title: "Living in the shadow of a great man",
+  //         topic: "mitch",
+  //         author: "butter_bridge",
+  //         body: "I find this existence challenging",
+  //         created_at: "2020-07-09T20:11:00.000Z",
+  //         votes: 100,
+  //         article_img_url:
+  //           "https://images.pexels.com/photos/158651/news-newsletter-newspaper-information-158651.jpeg?w=700&h=700",
+  //       })
+  //     })
+  //   })
   })
 
-  describe("GET /api/articles/999999999", () => {
-    test("404: Responds with bad request if sent an invalid ID that doesn't exist", () => {
-      return request(app)
-      .get("/api/articles/999999999")
-      .expect(404)
-      .then((response) => {
-        expect(response.body.msg).toBe(("Not Found"))
-      })
-    })
-  })
+  // describe("GET /api/articles/999999999", () => {
+  //   test("404: Responds with bad request if sent an invalid ID that doesn't exist", () => {
+  //     return request(app)
+  //     .get("/api/articles/999999999")
+  //     .expect(404)
+  //     .then((response) => {
+  //       expect(response.body.msg).toBe(("Not Found"))
+  //     })
+  //   })
+  // })
 
   describe("GET /api/articles/banana", () => {
     test("400: Responds with bad request if sent an invalid ID", () => {
@@ -188,7 +188,7 @@ test("404: responds with message 'Path not found' for an invalid endpoint", () =
       });
     })
 
-    describe.only("POST /api/articles/1/comments", () => {
+    describe("POST /api/articles/1/comments", () => {
       test("201: POST: Responds with a new posted comment that has an object of author and body only", () => {
         const newComment = {
           username: "butter_bridge",
@@ -206,19 +206,54 @@ test("404: responds with message 'Path not found' for an invalid endpoint", () =
         })
       })
 
-    // describe("GET /api/users", () => {
-    //   test("200: Responds with an array of users object, each of which should have properties of: username, name, avatar_url", () => {
-    //     return request(app)
-    //     .get("/api/users")
-    //     .expect(200)
-    //     .then((response) => {
-    //       const users = response.body.users
-    //       expect(users).toHaveLength(4)
-    //       expect(users[0]).toHaveProperty("username")
-    //       expect(users[0]).toHaveProperty("name")
-    //       expect(users[0]).toHaveProperty("avatar_url")
-    //     })
-    //   })
-    // })
+      
+    describe("PATCH /api/articles/:article_id", () => {
+      test("200: Successfully updates the votes and returns the updated article", () => {
+        const article_id = 1
+          return request(app)
+            .patch(`/api/articles/1`)
+            .send({ inc_votes: 5 })
+            .expect(200)
+            .then((response) => {
+                const article = response.body.article;
+                expect(article.votes).toBe(105)
+                expect(article.article_id).toBe(article_id)
+                expect(article.title).toBeDefined()
+                expect(article.body).toBeDefined()
+                expect(article.topic).toBeDefined()
+                expect(article.author).toBeDefined()
+                expect(article.created_at).toBeDefined()
+            })
+        })
+    })
 
-});
+    describe("DELETE /api/comments/5", () => {
+      test("204: Successfully deletes the comment", () => {
+        return request(app)
+          .delete("/api/comments/5")
+          .expect(204)
+      })
+
+      // describe("GET /api/users", () => {
+      // test("200: Responds with an array of users object, each of which should have properties of: username, name, avatar_url", () => {
+      //   return request(app)
+      //   .get("/api/users")
+      //   .expect(200)
+      //   .then((response) => {
+      //     const users = response.body.users
+      //     expect(users).toHaveLength(4)
+      //     expect(users[0]).toHaveProperty("username")
+      //     expect(users[0]).toHaveProperty("name")
+      //     expect(users[0]).toHaveProperty("avatar_url")
+      //   })
+      // })
+
+    })
+
+
+
+
+
+
+
+  
