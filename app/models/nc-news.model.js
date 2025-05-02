@@ -54,7 +54,22 @@ const selectComments = (article_id) => {
     .then(result => result.rows)
 }
 
+const insertCommentByArticleId = (article_id, username, body) => {
+    return db.query(`
+        INSERT INTO comments (article_id, author, body)
+        VALUES ($1, $2, $3)
+        RETURNING *`, [article_id, username, body])
+        .then((result) => {
+            return result.rows[0]
+        })
+}   
 
+// const selectUsers = () => {
+//     return db.query(`SELECT * FROM users`)
+//     .then((result) => {
+//         console.log(result.rows)
+//         return result.rows
+//     })
+// }
 
-
-module.exports = { selectTopics, selectArticlesById, selectArticles, selectComments };
+module.exports = { selectTopics, selectArticlesById, selectArticles, selectComments, insertCommentByArticleId };
