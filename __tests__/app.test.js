@@ -4,9 +4,7 @@ const seed = require("../db/seeds/seed");
 const db = require("../db/connection");
 const data = require("../db/data/test-data/index");
 const request = require("supertest");
-const topics = require("../db/data/test-data/topics");
-const articles = require("../db/data/test-data/articles");
-const comments = require("../db/data/test-data/comments");
+
 
 beforeEach(() => {
   return seed(data);
@@ -190,6 +188,37 @@ test("404: responds with message 'Path not found' for an invalid endpoint", () =
       });
     })
 
+    describe.only("POST /api/articles/1/comments", () => {
+      test("201: POST: Responds with a new posted comment that has an object of author and body only", () => {
+        const newComment = {
+          username: "butter_bridge",
+          body: "Great Article!"
+        }
+        return request(app)
+        .post("/api/articles/1/comments")
+        .send(newComment)
+        .expect(201)
+        .then((response) => {
+          const comment = response.body.comment 
+          expect(comment).toHaveProperty("author", "butter_bridge");
+          expect(comment).toHaveProperty("body", "Great Article!");
+          })
+        })
+      })
 
+    // describe("GET /api/users", () => {
+    //   test("200: Responds with an array of users object, each of which should have properties of: username, name, avatar_url", () => {
+    //     return request(app)
+    //     .get("/api/users")
+    //     .expect(200)
+    //     .then((response) => {
+    //       const users = response.body.users
+    //       expect(users).toHaveLength(4)
+    //       expect(users[0]).toHaveProperty("username")
+    //       expect(users[0]).toHaveProperty("name")
+    //       expect(users[0]).toHaveProperty("avatar_url")
+    //     })
+    //   })
+    // })
 
 });

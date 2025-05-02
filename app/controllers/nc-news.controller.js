@@ -48,5 +48,30 @@ const getComments = (req, res, next) => {
 }
 
 
+const postComment = (req, res, next) => {
+    const { article_id } = req.params
+    const { username, body } = req.body
+    console.log(article_id)
+    insertCommentByArticleId(article_id, username, body)
+    .then((comment) => {
+        res.status(201).send({ comment })
+    })
+    .catch((err) => {
+        next(err)
+    })
+}
 
-module.exports = { getApi, getTopics, getArticlesById, getArticles, getComments };
+// const getUsers = (req, res) => {
+//     selectUsers().then((result) => {
+//         res.status(200).send({ users: result });
+//       })
+//           .catch((err) => {
+//         next(err)
+//     })
+// }
+
+
+
+
+
+module.exports = { getApi, getTopics, getArticlesById, getArticles, getComments, postComment };
