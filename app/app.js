@@ -3,7 +3,7 @@ const endpointsJson = require("../endpoints.json");
 const express = require("express");
 const app = express();
 const db = require("../db/connection");
-const { getApi, getTopics, getArticlesById, getArticles, getComments, postComment, patchArticleVotes, deleteComment, getUsers} = require("./controllers/nc-news.controller");
+const { getApi, getTopics, getArticlesById, getArticles, getComments, postComment, patchArticleVotes, deleteComment, getUsers, getAllArticles} = require("./controllers/nc-news.controller");
 
 
 app.use(express.json());
@@ -26,22 +26,36 @@ app.delete("/api/comments/:comment_id", deleteComment)
 
 app.get("/api/users", getUsers)
 
+app.get("/api/articles", getAllArticles);
+
+
 
 app.use((req, res) => {
-  res.status(404).send({ msg: 'Path not found' });
+  res.status(404).send({ msg: "Path not found" });
+});
+
+
+app.use((err, req, res, next) => {
+  if (err.status && err.msg) {
+    res.status(err.status).send({ msg: err.msg });
+  } else {
+    next(err);
+  }
 });
 
 app.use((err, req, res, next) => {
-    if (err.status && err.msg) {
-    res.status(err.status).send({ msg: err.msg });
-    } else next(err)
-  });
+  if (err.code === "22P02") {
+    res.status(400).send({ msg: "Invalid input" });
+  } else {
+    next(err);
+  }
+});
 
-  app.use((err, req, res, next) => {
-    if (err.code === "22P02") {
-      res.status(400).send({ msg: "Invalid input" })
-    }
-})
+
+app.use((err, req, res, next) => {
+  res.status(500).send({ msg: "Internal Server Error" });
+});
+
 
 
 
