@@ -3,8 +3,10 @@ const endpointsJson = require("../endpoints.json");
 const express = require("express");
 const app = express();
 const db = require("../db/connection");
+const cors = require('cors');
 const { getApi, getTopics, getArticlesById, getArticles, getComments, postComment, patchArticleVotes, deleteComment, getUsers, getAllArticles} = require("./controllers/nc-news.controller");
 
+app.use(cors());
 
 app.use(express.json());
 
