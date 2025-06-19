@@ -95,11 +95,13 @@ npm test
 
 ---
 
-## Related Repositories
+🔗 Related Repositories
 
-- **Frontend Repo** – [fe-nc-news](https://github.com/Yan2992/fe-nc-news)
+Backend Repo – fe-nc-news -> https://github.com/Yan2992/fe-nc-news
 
-## Author
+👤 Author
+GitHub – @Yan2992
 
-- **GitHub** – [@Yan2992](https://github.com/Yan2992)  
-- **LinkedIn** – [Yan Bulavintsev](https://www.linkedin.com/in/yan-bulavintsev/)
+LinkedIn – Yan Bulavintsev
+
+This portfolio project was created as part of a Digital Skills Bootcamp in Software Engineering provided by Northcoders
