@@ -1,8 +1,10 @@
 # NC News Backend
 
-A RESTful API for a news application built with Express.js and PostgreSQL. This project serves as the backend for the NC News frontend and provides endpoints to fetch, create, update, and delete articles, comments, users, and topics.
+A RESTful API for a news application built with **Express.js** and **PostgreSQL**. This project serves as the backend for the [NC News frontend](https://github.com/Yan2992/fe-nc-news) and provides endpoints to fetch, create, update, and delete articles, comments, users, and topics.
 
-## Tech Stack
+---
+
+## 🧰 Tech Stack
 
 - Node.js  
 - Express.js  
@@ -10,7 +12,9 @@ A RESTful API for a news application built with Express.js and PostgreSQL. This 
 - pg (node-postgres)  
 - Jest & Supertest (for testing)
 
-## Features
+---
+
+## ✨ Features
 
 - Retrieve all articles with comment counts  
 - Filter articles by topic  
@@ -18,86 +22,60 @@ A RESTful API for a news application built with Express.js and PostgreSQL. This 
 - Post and delete comments  
 - API-level error handling with meaningful status codes
 
-## Getting Started
+---
 
-Follow these steps to run the project locally.
+## 🚀 Getting Started
+
+Follow these steps to run the project locally:
 
 ### 1. Clone the repository
 
-```bash
+
 git clone https://github.com/Yan2992/be-nc-news.git
 cd be-nc-news
-```
 
-### 2. Install dependencies
+2. Install dependencies
 
-```bash
 npm install
-```
 
-### 3. Set up environment variables
+3. Set up environment variables
 
-Create two `.env` files in the root directory:
+Create two .env files in the root directory:
 
-- `.env.development`
-- `.env.test`
+.env.development
 
-Each file should contain your PostgreSQL connection string. For example:
+.env.test
 
-```
-DATABASE_URL=postgres://your_username:your_password@localhost:5432/nc_news
-```
+Each should contain the appropriate PostgreSQL connection string:
 
-For the test environment:
+DATABASE_URL=postgres://<your_username>:<your_password>@localhost:5432/nc_news
 
-```
-DATABASE_URL=postgres://your_username:your_password@localhost:5432/nc_news_test
-```
+For testing:
+DATABASE_URL=postgres://<your_username>:<your_password>@localhost:5432/nc_news_test
 
-> Replace `your_username` and `your_password` with your actual PostgreSQL credentials.
+🔐 Replace <your_username> and <your_password> with your actual PostgreSQL credentials.
 
-### 4. Set up the databases
+4. Set up the databases
 
-```bash
 npm run setup-dbs
-```
 
-### 5. Seed the development database
+5. Seed the development database
 
-```bash
 npm run seed
-```
 
-### 6. Start the development server
 
-```bash
+6. Start the development server
+
 npm run dev
-```
 
-### 7. Run tests
 
-```bash
+7. Run the tests
+
 npm test
-```
 
----
-
-## API Endpoints
-
-- `GET /api/topics` – fetches all topics  
-- `GET /api/users` – fetches all users  
-- `GET /api/articles` – fetches all articles (with optional sorting and filtering)  
-- `GET /api/articles/:article_id` – fetches a specific article by ID  
-- `PATCH /api/articles/:article_id` – updates the vote count for a specific article  
-- `GET /api/articles/:article_id/comments` – fetches all comments for a specific article  
-- `POST /api/articles/:article_id/comments` – adds a comment to a specific article  
-- `DELETE /api/comments/:comment_id` – deletes a specific comment by ID  
-
----
 
 🔗 Related Repositories
-
-Backend Repo – fe-nc-news -> https://github.com/Yan2992/fe-nc-news
+Frontend Repo – fe-nc-news -> https://github.com/Yan2992/be-nc-news
 
 👤 Author
 GitHub – @Yan2992
